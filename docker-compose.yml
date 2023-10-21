@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  chagiya-spa:
+    build: .
+    env_file: .env
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "5173:5173"
