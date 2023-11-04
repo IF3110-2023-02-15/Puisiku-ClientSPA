@@ -1,7 +1,6 @@
 ## Prerun
 
-create .env from .env.example
-By default use this creds
+create .env w/ this default creds
 
 ```bash
 VITE_APP_API_BASE_URL=http://localhost:3000
