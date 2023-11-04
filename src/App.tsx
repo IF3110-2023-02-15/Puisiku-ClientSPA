@@ -1,10 +1,12 @@
 import "./App.css";
+import { AuthProvider } from "@/contexts/AuthContext";
+import Routing from "@/routes";
 
 function App() {
   return (
-    <>
-      <h1 className="font-black text-3xl">Chagiya 자기야</h1>
-    </>
+    <AuthProvider>
+      <Routing />
+    </AuthProvider>
   );
 }
 
