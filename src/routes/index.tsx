@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import PrivateRoute from "./PrivateRoute";
+import AddPoem from "@/pages/addpoem";
 
 const LandingPage = lazy(() => import("@/pages/landing"));
 const RegisterPage = lazy(() => import("@/pages/register"));
@@ -24,6 +25,7 @@ const Routing = () => {
           path="/profile"
           element={<PrivateRoute element={<ProfilePage />} />}
         />
+        <Route path="/addpoem" element={<PrivateRoute element={<AddPoem />} />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
