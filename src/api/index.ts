@@ -42,3 +42,14 @@ export const getProfile = async () => {
     throw error;
   }
 };
+
+export const getPoems = async () => {
+  try {
+    const response = await apiClient.get("/poem");
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving poem", error);
+    throw error;
+  }
+};
+
