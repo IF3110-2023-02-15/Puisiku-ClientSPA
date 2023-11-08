@@ -1,16 +1,23 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import Navbar from "@/components/navbar";
+import Loading from "@/components/loading";
 
-const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({
-  element,
-}) => {
+const PrivateRoute = () => {
   const { id, loading } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
-  return id ? element : <Navigate to="/login" replace />;
+  return id ? (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  ) : (
+    <Navigate to="/login" replace />
+  );
 };
 
 export default PrivateRoute;
