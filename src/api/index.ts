@@ -42,3 +42,27 @@ export const getProfile = async () => {
     throw error;
   }
 };
+
+export const updateProfile = async (data: any) => {
+  try {
+    const response = await apiClient.patch("/user", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user profile", error);
+    throw error;
+  }
+};
+
+export const uploadImageFile = async (data: any) => {
+  try {
+    const response = await apiClient.post("/file/img", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading image file");
+    throw error;
+  }
+};
