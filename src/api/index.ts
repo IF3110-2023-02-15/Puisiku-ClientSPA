@@ -77,3 +77,12 @@ export const getPoems = async () => {
   }
 };
 
+export const addPoem = async (data: any) => {
+  try {
+    const response = await apiClient.post("/poem", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error add poem", error);
+    throw error;
+  }
+};
