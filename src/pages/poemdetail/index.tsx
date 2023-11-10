@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getPoemById } from "@/api";
-import { Button, Image, useDisclosure } from "@chakra-ui/react";
+import { Button, Image } from "@chakra-ui/react";
 import EditPoem from "@/pages/updatepoem";
 
 

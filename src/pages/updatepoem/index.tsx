@@ -23,7 +23,7 @@ interface EditPoemModalProps {
   poemId: number;
 }
 
-const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose }) => {
+const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => {
   const { id } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -38,7 +38,7 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const poemsData = await getPoemById(id);
+        const poemsData = await getPoemById(poemId);
         console.log(poemsData);
         setFormData(poemsData);
       } catch (error) {
@@ -159,126 +159,3 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose }) => {
 };
 
 export default EditPoem;
-
-// const EditPoem = () => {
-//   const { id } = useParams<{ id: string }>();
-
-//   const [formData, setFormData] = useState({
-//     title: '',
-//     content: '',
-//     genre: '',
-//     image: null,
-//     audio: null,
-//     year: 2023,
-//   });
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const poemsData = await getPoems();
-//         console.log(poemsData);
-//         setFormData(poemsData);
-//       } catch (error) {
-//         console.error("Error fetching poem data", error);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-
-//     try {
-//       let newFormData = { ...formData , creatorId : id};
-//       const imageFile = formData.image;
-//       const audioFile = formData.audio;
-
-//       if (imageFile) {
-//         const formData = new FormData();
-//         formData.append("file", imageFile);
-
-//         const imagePath = await uploadImageFile(formData);
-
-//         const { filePath } = imagePath;
-
-//         if (!filePath) {
-//           throw new Error("Image path is missing");
-//         }
-
-//         newFormData = { ...newFormData, image: filePath };
-//       }
-
-//       if (audioFile) {
-//         const audioFormData = new FormData();
-//         audioFormData.append("file", audioFile);
-  
-//         const audioPath = await uploadAudioFile(audioFormData);
-  
-//         const { filePath } = audioPath;
-  
-//         if (!filePath) {
-//           throw new Error("Audio path is missing");
-//         }
-  
-//         newFormData = { ...newFormData, audio: filePath};
-//       }
-
-//       await addPoem(newFormData);
-      
-//     } catch (error) {
-//       console.error("Error adding poem", error);
-//     }
-//   };
-
-//   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-//     const { name, value } = e.target;
-//     setFormData({ ...formData, [name]: value });
-//   };
-
-//   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-//     const { name, files } = e.target;
-//     if (files && files.length) {
-//       setFormData({ ...formData, [name]: files[0] });
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <div>
-//         <label>Title</label>
-//         <input type="text" name="title" value={formData.title} onChange={handleInputChange} />
-//       </div>
-//       <div>
-//         <label>Content</label>
-//         <textarea name="content" value={formData.content} onChange={handleInputChange} />
-//       </div>
-//       <div>
-//         <label>Genre</label>
-//         <select name="genre" value={formData.genre} onChange={handleInputChange}>
-//           <option value="Romantic">Romantic</option>
-//           <option value="Patriot">Patriot</option>
-//           <option value="Eligi">Eligi</option>
-//           <option value="Education">Education</option>
-//           <option value="Nature">Nature</option>
-//           <option value="Teacher">Teacher</option>
-//         </select>
-//       </div>
-//       <div>
-//         <label>Image</label>
-//         <input type="file" name="image" accept=".jpg, .jpeg, .png" onChange={handleFileChange} />
-//       </div>
-//       <div>
-//         <label>Audio</label>
-//         <input type="file" name="audio" accept=".mp3" onChange={handleFileChange} />
-//       </div>
-//       <div>
-//         <label>Year</label>
-//         <input type="number" name="year" value={formData.year} onChange={handleInputChange} />
-//       </div>
-//       <button type="submit">Submit</button>
-//     </form>
-//   );
-// };
-
-// export default EditPoem;
