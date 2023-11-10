@@ -67,6 +67,20 @@ export const uploadImageFile = async (data: any) => {
   }
 };
 
+export const uploadAudioFile = async (data: any) => {
+  try {
+    const response = await apiClient.post("/file/audio", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading audio file");
+    throw error;
+  }
+};
+
 export const getPoems = async () => {
   try {
     const response = await apiClient.get("/poem");
@@ -77,13 +91,37 @@ export const getPoems = async () => {
   }
 };
 
+export const getPoemById = async(id: number) => {
+  try{
+    const response = await apiClient.get(`/poem/${id}`);
+    return response.data;
+  }catch (error) {
+    console.error("Error get poem by id", error);
+    throw error;
+  }
+}
+
 export const addPoem = async (data: any) => {
   try {
-    const response = await apiClient.post("/poem", data);
+    let temp = {...data, imagePath: data.image, audioPath: data.audio};
+    delete temp.image;
+    delete temp.audio;
+
+    const response = await apiClient.post("/poem", temp);
     return response.data;
   } catch (error) {
     console.error("Error add poem", error);
     throw error;
   }
 };
+
+export const updatePoem = async (id: number, data: any) => {
+  try {
+    const response = await apiClient.post(`/poem/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating poem", error);
+    throw error;
+  }
+}
 
