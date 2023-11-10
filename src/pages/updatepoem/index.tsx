@@ -23,18 +23,17 @@ interface EditPoemModalProps {
   poemId: number;
 }
 
-const initialState = {
-  title: '',
-  content: '',
-  genre: '',
-  image: null,
-  audio: null,
-  year: 2023,
-};
-
-
 const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => {
   const { id } = useAuth();
+
+  const initialState = {
+    title: '',
+    content: '',
+    genre: '',
+    image: null,
+    audio: null,
+    year: 2023,
+  };
 
   const [formData, setFormData] = useState(initialState);
 
@@ -117,7 +116,7 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
   }
 
   return (
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit}>

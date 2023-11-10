@@ -21,7 +21,11 @@ interface AddPoemModalProps {
   onClose: () => void;
 }
 
-const initialState = {
+
+const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
+  const { id } = useAuth();
+
+  const initialState = {
     title: '',
     content: '',
     genre: '',
@@ -30,10 +34,7 @@ const initialState = {
     year: 2023,
   };
 
-
-const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
-  const { id } = useAuth();
-
+  
   const [formData, setFormData] = useState(initialState);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -101,8 +102,8 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
   }
 
   return (
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
+      <Modal isOpen={isOpen} onClose={handleClose}>
+        <ModalOverlay/>
         <ModalContent>
           <form onSubmit={handleSubmit}>
             <ModalHeader>Add Poem</ModalHeader>
