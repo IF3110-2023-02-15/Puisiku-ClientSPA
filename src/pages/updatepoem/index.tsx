@@ -23,17 +23,20 @@ interface EditPoemModalProps {
   poemId: number;
 }
 
+const initialState = {
+  title: '',
+  content: '',
+  genre: '',
+  image: null,
+  audio: null,
+  year: 2023,
+};
+
+
 const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => {
   const { id } = useAuth();
 
-  const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-    genre: '',
-    image: null,
-    audio: null,
-    year: 2023,
-  });
+  const [formData, setFormData] = useState(initialState);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,6 +91,8 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
       }
 
       await addPoem(newFormData);
+
+      handleClose();
       
     } catch (error) {
       console.error("Error adding poem", error);
@@ -105,6 +110,11 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
       setFormData({ ...formData, [name]: files[0] });
     }
   };
+
+  const handleClose = () => {
+    setFormData(initialState);
+    onClose();
+  }
 
   return (
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -150,7 +160,7 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
               <Button colorScheme="blue" mr={3} type="submit">
                 Submit
               </Button>
-              <Button onClick={onClose}>Close</Button>
+              <Button onClick={handleClose}>Close</Button>
             </ModalFooter>
           </form>
         </ModalContent>

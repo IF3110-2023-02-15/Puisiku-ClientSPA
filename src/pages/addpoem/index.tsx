@@ -21,17 +21,20 @@ interface AddPoemModalProps {
   onClose: () => void;
 }
 
-const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
-  const { id } = useAuth();
-
-  const [formData, setFormData] = useState({
+const initialState = {
     title: '',
     content: '',
     genre: '',
     image: null,
     audio: null,
     year: 2023,
-  });
+  };
+
+
+const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
+  const { id } = useAuth();
+
+  const [formData, setFormData] = useState(initialState);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -72,6 +75,8 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
       }
 
       await addPoem(newFormData);
+
+      handleClose();
       
     } catch (error) {
       console.error("Error adding poem", error);
@@ -90,13 +95,18 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
+  const handleClose = () => {
+    setFormData(initialState);
+    onClose();
+  }
+
   return (
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit}>
             <ModalHeader>Add Poem</ModalHeader>
-            <ModalCloseButton />
+            <ModalCloseButton onClick={handleClose}/>
             <ModalBody>
             <div>
               <label>Title</label>
@@ -134,7 +144,7 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
               <Button colorScheme="blue" mr={3} type="submit">
                 Submit
               </Button>
-              <Button onClick={onClose}>Close</Button>
+              <Button onClick={handleClose}>Close</Button>
             </ModalFooter>
           </form>
         </ModalContent>
