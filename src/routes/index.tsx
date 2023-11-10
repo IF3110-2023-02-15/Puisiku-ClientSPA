@@ -3,7 +3,8 @@ import { Routes, Route } from "react-router-dom";
 
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
-import AddPoem from "@/pages/addpoem";
+import PoemDetail from "@/pages/poemdetail";
+import EditPoem from "@/pages/updatepoem";
 
 const LandingPage = lazy(() => import("@/pages/landing"));
 const RegisterPage = lazy(() => import("@/pages/register"));
@@ -27,7 +28,7 @@ const Routing = () => {
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<HomePage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/addpoem" element={<AddPoem />} />
+            <Route path="/poem/:id" element={<PoemDetail />} />
           </Route>
 
           <Route path="*" element={<NotFoundPage />} />
