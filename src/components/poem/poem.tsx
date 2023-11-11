@@ -10,7 +10,6 @@ interface PoemProps {
 }
 
 const Poem: React.FC<PoemProps> = ({ poem, handlePoemClick }) => {
-  console.log(poem);
   return (
     <div
       key={poem.id}

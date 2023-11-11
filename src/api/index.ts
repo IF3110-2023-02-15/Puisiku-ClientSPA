@@ -91,19 +91,19 @@ export const getPoems = async () => {
   }
 };
 
-export const getPoemById = async(id: number) => {
-  try{
+export const getPoemById = async (id: number) => {
+  try {
     const response = await apiClient.get(`/poem/${id}`);
     return response.data;
-  }catch (error) {
+  } catch (error) {
     console.error("Error get poem by id", error);
     throw error;
   }
-}
+};
 
 export const addPoem = async (data: any) => {
   try {
-    let temp = {...data, imagePath: data.image, audioPath: data.audio};
+    let temp = { ...data, imagePath: data.image, audioPath: data.audio };
     delete temp.image;
     delete temp.audio;
 
@@ -123,5 +123,44 @@ export const updatePoem = async (id: number, data: any) => {
     console.error("Error updating poem", error);
     throw error;
   }
-}
+};
 
+export const addAlbum = async (data: any) => {
+  try {
+    const response = await apiClient.post("/album", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error while adding album");
+    throw error;
+  }
+};
+
+export const getAlbums = async () => {
+  try {
+    const response = await apiClient.get("/album/creator");
+    return response.data;
+  } catch (error) {
+    console.error("Error while getting album");
+    throw error;
+  }
+};
+
+export const getAlbumPoems = async (albumId: number) => {
+  try {
+    const response = await apiClient.get(`/poem/album/${albumId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error while getting album poems");
+    throw error;
+  }
+};
+
+export const getAlbum = async (albumId: number) => {
+  try {
+    const response = await apiClient.get(`/album/${albumId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error while getting album");
+    throw error;
+  }
+};
