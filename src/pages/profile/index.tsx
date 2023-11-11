@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { getProfile, updateProfile } from "@/api";
 import ProfileView from "./view";
 import { uploadImageFile } from "@/api";
-
-const REST_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
+import { REST_BASE_URL } from "@/configs/config";
 
 interface IUserResponse {
   name: string;
