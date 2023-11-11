@@ -13,6 +13,7 @@ const ProfilePage = lazy(() => import("@/pages/profile"));
 const AlbumPage = lazy(() => import("@/pages/album"));
 const PoemDetailPage = lazy(() => import("@/pages/poemdetail"));
 
+const UnauthorizedPage = lazy(() => import("@/pages/errors/401"));
 const NotFoundPage = lazy(() => import("@/pages/errors/404"));
 
 const Routing = () => {
@@ -33,8 +34,9 @@ const Routing = () => {
             <Route path="/poem/:id" element={<PoemDetailPage />} />
           </Route>
 
+          <Route path="/401" element={<UnauthorizedPage />} />
           <Route path="*" element={<NotFoundPage />} />
-            </Routes>
+        </Routes>
       </Suspense>
     </>
   );
