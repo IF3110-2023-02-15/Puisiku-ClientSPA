@@ -37,28 +37,33 @@ const Album = () => {
   const onClose = () => setIsOpen(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const albumData = await getAlbum(idNumber);
-        setAlbum(albumData);
-        console.log(albumData);
-
-        const poemsData = await getAlbumPoems(idNumber);
-        setPoems(poemsData);
-      } catch (error: any) {
-        if (error.response.status === 401) {
-          navigate("/401");
-        } else if (error.response.status === 404) {
-          navigate("/404");
-        }
-        console.error("Error fetching data: ", error);
-      }
-    };
     fetchData();
   }, [idNumber]);
 
+  const fetchData = async () => {
+    try {
+      const albumData = await getAlbum(idNumber);
+      setAlbum(albumData);
+      console.log(albumData);
+
+      const poemsData = await getAlbumPoems(idNumber);
+      setPoems(poemsData);
+    } catch (error: any) {
+      if (error.response.status === 401) {
+        navigate("/401");
+      } else if (error.response.status === 404) {
+        navigate("/404");
+      }
+      console.error("Error fetching data: ", error);
+    }
+  };
+
   const handlePoemClick = (id: number) => {
     console.log(`Poem with id ${id} clicked.`);
+  };
+
+  const handlePoemAdded = () => {
+    fetchData();
   };
 
   return (
@@ -98,7 +103,7 @@ const Album = () => {
           </Box>
         </Link>
       ))}
-      <AddPoem isOpen={isOpen} onClose={onClose} albumId={idNumber}/>
+      <AddPoem isOpen={isOpen} onClose={onClose} albumId={idNumber} onPoemAdded={handlePoemAdded}/>
     </Box>
   );
 };

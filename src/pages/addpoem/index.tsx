@@ -20,10 +20,11 @@ interface AddPoemModalProps {
   isOpen: boolean;
   onClose: () => void;
   albumId: number;
+  onPoemAdded: () => void;
 }
 
 
-const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose, albumId}) => {
+const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose, albumId, onPoemAdded }) => {
   const { id } = useAuth();
 
   const initialState = {
@@ -76,9 +77,9 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose, albumId}) => {
         newFormData = { ...newFormData, audio: filePath};
       }
 
-      console.log(newFormData);
-
       await addPoem(newFormData);
+
+      onPoemAdded();
 
       handleClose();
       
