@@ -19,16 +19,17 @@ import {
 interface AddPoemModalProps {
   isOpen: boolean;
   onClose: () => void;
+  albumId: number;
 }
 
 
-const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
+const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose, albumId}) => {
   const { id } = useAuth();
 
   const initialState = {
     title: '',
     content: '',
-    genre: '',
+    genre: 'Romantic',
     image: null,
     audio: null,
     year: 2023,
@@ -41,7 +42,7 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
     e.preventDefault();
 
     try {
-      let newFormData = { ...formData , creatorId : id};
+      let newFormData = { ...formData , creatorId : id, albumId: albumId};
       const imageFile = formData.image;
       const audioFile = formData.audio;
 
@@ -74,6 +75,8 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
   
         newFormData = { ...newFormData, audio: filePath};
       }
+
+      console.log(newFormData);
 
       await addPoem(newFormData);
 
