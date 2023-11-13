@@ -1,14 +1,25 @@
 import { useState, useEffect } from "react";
-import { Button, Box } from "@chakra-ui/react";
+import { Button, Box, Image, Text } from "@chakra-ui/react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAlbum, getAlbumPoems } from "@/api";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import Poem from "../../components/poem/poem";
 import AddPoem from "@/pages/addpoem";
+
+const REST_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
 interface IPoem {
   id: number;
   title: string;
-  creator: string;
+  creatorId: string;
+  genre: string;
+}
+
+interface IAlbum {
+  id: number;
+  name: string;
+  imagePath: string;
+  creatorId: number;
 }
 
 const Album = () => {
@@ -21,7 +32,7 @@ const Album = () => {
   }
 
   const [poems, setPoems] = useState<IPoem[]>([]);
-  const [album, setAlbum] = useState();
+  const [album, setAlbum] = useState<IAlbum | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const onClose = () => setIsOpen(false);
 
@@ -30,6 +41,7 @@ const Album = () => {
       try {
         const albumData = await getAlbum(idNumber);
         setAlbum(albumData);
+        console.log(albumData);
 
         const poemsData = await getAlbumPoems(idNumber);
         setPoems(poemsData);
@@ -51,20 +63,42 @@ const Album = () => {
 
   return (
     <Box>
-      ini di album
+      <Box display="flex" justifyContent="flex-end">
+        <Button
+          leftIcon={<IoIosAddCircleOutline />}
+          onClick={() => setIsOpen(true)}
+          colorScheme="pink"
+          width="fit-content"
+          marginTop="15px"
+          marginRight="20px"
+        >
+          Add Poem
+        </Button>
+      </Box>
+      {album && (
+        <Box display="flex" justifyContent="center" marginBottom="20px">
+          <Box display="flex" flexDirection="row" alignItems="center" width="60%">
+            <Image 
+            boxSize="200px"
+            src={REST_BASE_URL + album.imagePath}
+            alt={album.name} />
+            <Box display="flex" alignItems="center">
+              <Text as='b' fontSize="28px" paddingLeft="50px">
+                {album.name}
+              </Text>
+            </Box>
+          </Box>
+        </Box>
+      )}
+
       {poems.map((poem) => (
         <Link to={`/poem/${poem.id}`} key={poem.id}>
-          <Poem poem={poem} handlePoemClick={handlePoemClick} />
+          <Box display="flex" justifyContent="center">
+            <Poem poem={poem} handlePoemClick={handlePoemClick}/>
+          </Box>
         </Link>
       ))}
-      <Button
-        onClick={() => setIsOpen(true)}
-        colorScheme="pink"
-        width="fit-content"
-      >
-        Add Poem
-      </Button>
-      <AddPoem isOpen={isOpen} onClose={onClose} />
+      <AddPoem isOpen={isOpen} onClose={onClose} albumId={idNumber}/>
     </Box>
   );
 };
