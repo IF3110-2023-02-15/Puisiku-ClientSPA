@@ -1,6 +1,7 @@
 import { Flex, Image, Text } from "@chakra-ui/react";
 import { REST_BASE_URL } from "@/configs/config";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 interface IAlbum {
   id: number;
@@ -12,6 +13,7 @@ interface IAlbum {
 
 const Album = ({ album }: { album: IAlbum }) => {
   const imagePath = REST_BASE_URL + album.imagePath;
+  const [isHovered, setIsHovered] = useState(false);
   console.log(album);
   return (
     <Link to={`/album/${album.id}`}>
@@ -25,6 +27,13 @@ const Album = ({ album }: { album: IAlbum }) => {
         alignItems="center"
         width={250}
         gap={4}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          cursor: "pointer",
+          transition: "transform 0.3s ease-in-out",
+          transform: isHovered ? "scale(1.05)" : "scale(1)",
+        }}
       >
         <Image
           src={imagePath}
