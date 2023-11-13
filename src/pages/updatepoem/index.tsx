@@ -1,7 +1,6 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { addPoem, getPoemById } from '@/api';
 import { uploadImageFile, uploadAudioFile } from "@/api";
-import { useParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   Modal,
