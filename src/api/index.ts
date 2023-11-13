@@ -117,10 +117,20 @@ export const addPoem = async (data: any) => {
 
 export const updatePoem = async (id: number, data: any) => {
   try {
-    const response = await apiClient.post(`/poem/${id}`, data);
+    const response = await apiClient.put(`/poem/${id}`, data);
     return response.data;
   } catch (error) {
     console.error("Error updating poem", error);
+    throw error;
+  }
+};
+
+export const deletePoem = async (id: number) => {
+  try {
+    const response = await apiClient.delete(`/poem/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error delete poem", error);
     throw error;
   }
 };
