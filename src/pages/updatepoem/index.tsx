@@ -1,7 +1,6 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import { addPoem, getPoemById } from '@/api';
+import { getPoemById, updatePoem } from '@/api';
 import { uploadImageFile, uploadAudioFile } from "@/api";
-import { useParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   Modal,
@@ -33,6 +32,7 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
     image: null,
     audio: null,
     year: 2023,
+    albumId: null,
   };
 
   const [formData, setFormData] = useState(initialState);
@@ -41,7 +41,6 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
     const fetchData = async () => {
       try {
         const poemsData = await getPoemById(poemId);
-        console.log(poemsData);
         setFormData(poemsData);
       } catch (error) {
         console.error("Error fetching poem data", error);
@@ -89,7 +88,7 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
         newFormData = { ...newFormData, audio: filePath};
       }
 
-      await addPoem(newFormData);
+      await updatePoem(poemId, newFormData);
 
       handleClose();
       
@@ -120,7 +119,7 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit}>
-            <ModalHeader>Add Poem</ModalHeader>
+            <ModalHeader>Edit Poem</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
             <div>
