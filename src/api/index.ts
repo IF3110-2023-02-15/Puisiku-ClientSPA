@@ -117,10 +117,20 @@ export const addPoem = async (data: any) => {
 
 export const updatePoem = async (id: number, data: any) => {
   try {
-    const response = await apiClient.post(`/poem/${id}`, data);
+    const response = await apiClient.put(`/poem/${id}`, data);
     return response.data;
   } catch (error) {
     console.error("Error updating poem", error);
+    throw error;
+  }
+};
+
+export const deletePoem = async (id: number) => {
+  try {
+    const response = await apiClient.delete(`/poem/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error delete poem", error);
     throw error;
   }
 };
@@ -155,12 +165,32 @@ export const getAlbumPoems = async (albumId: number) => {
   }
 };
 
+export const updateAlbum = async (id: number, data: any) => {
+  try {
+    const response = await apiClient.patch(`/album/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating album", error);
+    throw error;
+  }
+};
+
 export const getAlbum = async (albumId: number) => {
   try {
     const response = await apiClient.get(`/album/${albumId}`);
     return response.data;
   } catch (error) {
     console.error("Error while getting album");
+    throw error;
+  }
+};
+
+export const deleteAlbum = async (id: number) => {
+  try {
+    const response = await apiClient.delete(`/album/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error delete poem", error);
     throw error;
   }
 };

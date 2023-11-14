@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import { addPoem, getPoemById } from '@/api';
+import { getPoemById, updatePoem } from '@/api';
 import { uploadImageFile, uploadAudioFile } from "@/api";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -14,6 +14,7 @@ import {
   Input,
   Textarea,
   Select,
+  useToast,
 } from '@chakra-ui/react';
 
 interface EditPoemModalProps {
@@ -24,6 +25,7 @@ interface EditPoemModalProps {
 
 const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => {
   const { id } = useAuth();
+  const toast = useToast();
 
   const initialState = {
     title: '',
@@ -32,6 +34,7 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
     image: null,
     audio: null,
     year: 2023,
+    albumId: null,
   };
 
   const [formData, setFormData] = useState(initialState);
@@ -40,7 +43,6 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
     const fetchData = async () => {
       try {
         const poemsData = await getPoemById(poemId);
-        console.log(poemsData);
         setFormData(poemsData);
       } catch (error) {
         console.error("Error fetching poem data", error);
@@ -88,12 +90,27 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
         newFormData = { ...newFormData, audio: filePath};
       }
 
-      await addPoem(newFormData);
+      await updatePoem(poemId, newFormData);
 
       handleClose();
+
+      toast({
+        title: "Success!",
+        description: `Successfully updated poem`,
+        status: "success",
+        isClosable: true,
+        duration: 3000,
+      });
       
     } catch (error) {
-      console.error("Error adding poem", error);
+      console.error("Error updating poem", error);
+      toast({
+        title: "An error occurred.",
+        description: "Unable to update poem. Please try again!",
+        status: "error",
+        isClosable: true,
+        duration: 3000,
+      });
     }
   };
 
@@ -119,7 +136,7 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit}>
-            <ModalHeader>Add Poem</ModalHeader>
+            <ModalHeader>Edit Poem</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
             <div>

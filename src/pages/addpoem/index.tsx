@@ -14,21 +14,25 @@ import {
   Input,
   Textarea,
   Select,
+  useToast,
 } from '@chakra-ui/react';
 
 interface AddPoemModalProps {
   isOpen: boolean;
   onClose: () => void;
+  albumId: number;
+  onPoemAdded: () => void;
 }
 
 
-const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
+const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose, albumId, onPoemAdded }) => {
   const { id } = useAuth();
+  const toast = useToast();
 
   const initialState = {
     title: '',
     content: '',
-    genre: '',
+    genre: 'Romantic',
     image: null,
     audio: null,
     year: 2023,
@@ -41,7 +45,7 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
     e.preventDefault();
 
     try {
-      let newFormData = { ...formData , creatorId : id};
+      let newFormData = { ...formData , creatorId : id, albumId: albumId};
       const imageFile = formData.image;
       const audioFile = formData.audio;
 
@@ -77,10 +81,27 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose }) => {
 
       await addPoem(newFormData);
 
+      onPoemAdded();
+
       handleClose();
+
+      toast({
+        title: "Success!",
+        description: `Successfully adding poem`,
+        status: "success",
+        isClosable: true,
+        duration: 3000,
+      });
       
     } catch (error) {
       console.error("Error adding poem", error);
+      toast({
+        title: "An error occurred.",
+        description: "Unable to add poem. Please try again!",
+        status: "error",
+        isClosable: true,
+        duration: 3000,
+      });
     }
   };
 
