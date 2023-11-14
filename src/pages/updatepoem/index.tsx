@@ -21,9 +21,10 @@ interface EditPoemModalProps {
   isOpen: boolean;
   onClose: () => void;
   poemId: number;
+  onPoemUpdated: () => void;
 }
 
-const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => {
+const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId, onPoemUpdated }) => {
   const { id } = useAuth();
   const toast = useToast();
 
@@ -39,18 +40,28 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
 
   const [formData, setFormData] = useState(initialState);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const poemsData = await getPoemById(poemId);
-        setFormData(poemsData);
-      } catch (error) {
-        console.error("Error fetching poem data", error);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const poemsData = await getPoemById(poemId);
+      setFormData(poemsData);
+    } catch (error) {
+      console.error("Error fetching poem data", error);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
-  }, []);
+  }, [poemId]);
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchData();
+    }
+  }, [poemId, isOpen]);
+
+  useEffect(() => {
+    console.log("ini data update poem di formData", formData);
+  }, [formData]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -73,7 +84,8 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
         }
 
         newFormData = { ...newFormData, image: filePath };
-      }
+      } 
+
 
       if (audioFile) {
         const audioFormData = new FormData();
@@ -90,7 +102,10 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId }) => 
         newFormData = { ...newFormData, audio: filePath};
       }
 
+      console.log("ini newformdata: ",newFormData)
       await updatePoem(poemId, newFormData);
+
+      onPoemUpdated();
 
       handleClose();
 
