@@ -184,3 +184,13 @@ export const getAlbum = async (albumId: number) => {
     throw error;
   }
 };
+
+export const deleteAlbum = async (id: number) => {
+  try {
+    const response = await apiClient.delete(`/album/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error delete poem", error);
+    throw error;
+  }
+};
