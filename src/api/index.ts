@@ -165,6 +165,16 @@ export const getAlbumPoems = async (albumId: number) => {
   }
 };
 
+export const updateAlbum = async (id: number, data: any) => {
+  try {
+    const response = await apiClient.patch(`/album/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating album", error);
+    throw error;
+  }
+};
+
 export const getAlbum = async (albumId: number) => {
   try {
     const response = await apiClient.get(`/album/${albumId}`);
