@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { getPoemById, deletePoem } from "@/api";
 import { Button, Image, Box, Text, useToast, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react";
+import { IoIosCreate, IoMdTrash } from "react-icons/io";
 import EditPoem from "@/pages/updatepoem";
 
 
@@ -29,19 +30,23 @@ const PoemDetail = () => {
     const onClose = () => setIsOpen(false);
     const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
     const leastDestructiveRef = useRef(null);
-  
+
     useEffect(() => {
-      const fetchPoem = async () => {
-        try {
-          const data = await getPoemById(poemId);
-          setPoem(data);
-        } catch (error) {
-          console.error("Error fetching poem: ", error);
-        }
-      };
-  
       fetchPoem();
     }, [id]);
+
+    const fetchPoem = async () => {
+      try {
+        const data = await getPoemById(poemId);
+        setPoem(data);
+      } catch (error) {
+        console.error("Error fetching poem: ", error);
+      }
+    };
+
+    const handleUpdateCallback = () => {
+      fetchPoem();
+    };
 
     const handleDeleteClick = () => {
       setIsDeleteConfirmationOpen(true);
@@ -97,29 +102,26 @@ const PoemDetail = () => {
           </audio>
         </Box>
 
-        <Button 
-              onClick={() => setIsOpen(true)} 
-              colorScheme="pink" 
-              width="fit-content"
-              position="absolute"
-              top="15px"
-              right="100px"
-          >
-              Edit Poem
-        </Button>
+        <Box backgroundColor="#69DBC8" width="75%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+          <Box display="flex" flexDirection="row" justifyContent="flex-end" width="100%" marginTop={2}>
+            <Button 
+                onClick={() => setIsOpen(true)} 
+                colorScheme="teal" 
+                width="fit-content"
+                marginRight={2}
+              >
+                  <IoIosCreate/>
+            </Button>
 
-        <Button
-            onClick={handleDeleteClick}
-            colorScheme="red"
-            width="fit-content"
-            position="absolute"
-            top="15px"
-            right="20px"
-          >
-            Delete Poem
-        </Button>
-
-        <Box backgroundColor="#69DBC8" width="75%" display="flex" justifyContent="center" alignItems="center">
+            <Button
+                onClick={handleDeleteClick}
+                colorScheme="teal"
+                width="fit-content"
+                marginRight={2}
+              >
+                <IoMdTrash/>
+            </Button>
+          </Box>
           <Box 
             height="calc(90vh - 64px)"
             overflow="auto"
@@ -136,7 +138,7 @@ const PoemDetail = () => {
           </Box>
         </Box>
 
-      <EditPoem isOpen={isOpen} onClose={onClose} poemId={poemId}/>
+      <EditPoem isOpen={isOpen} onClose={onClose} poemId={poemId} onPoemUpdated={handleUpdateCallback}/>
       <AlertDialog
                 isOpen={isDeleteConfirmationOpen}
                 leastDestructiveRef={leastDestructiveRef}
