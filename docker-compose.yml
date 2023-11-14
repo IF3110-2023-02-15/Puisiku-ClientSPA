@@ -7,3 +7,9 @@ services:
       - ./src:/app/src
     ports:
       - "5173:5173"
+    networks:
+      - puisiku
+
+networks:
+  puisiku:
+    external: true
