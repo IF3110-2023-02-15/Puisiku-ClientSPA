@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Button, Box, Image, Text } from "@chakra-ui/react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAlbum, getAlbumPoems } from "@/api";
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosAddCircleOutline, IoIosCreate } from "react-icons/io";
 import Poem from "../../components/poem/poem";
 import AddPoem from "@/pages/addpoem";
+import UpdateAlbumModal from "@/pages/updatealbum";
 
 const REST_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -34,6 +35,9 @@ const Album = () => {
   const [poems, setPoems] = useState<IPoem[]>([]);
   const [album, setAlbum] = useState<IAlbum | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [selectedAlbum, setSelectedAlbum] = useState<IAlbum | null>(null);
+
   const onClose = () => setIsOpen(false);
 
   useEffect(() => {
@@ -44,7 +48,6 @@ const Album = () => {
     try {
       const albumData = await getAlbum(idNumber);
       setAlbum(albumData);
-      console.log(albumData);
 
       const poemsData = await getAlbumPoems(idNumber);
       setPoems(poemsData);
@@ -66,13 +69,30 @@ const Album = () => {
     fetchData();
   };
 
+  const handleOpenUpdateModal = (album: IAlbum) => {
+    setSelectedAlbum(album);
+    console.log(album.name);
+    console.log(album.imagePath);
+    setIsUpdateModalOpen(true);
+  };
+  
+  const handleCloseUpdateModal = () => {
+    setSelectedAlbum(null);
+    setIsUpdateModalOpen(false);
+  };
+  
+  const handleUpdateCallback = () => {
+    fetchData();
+  };
+  
+
   return (
     <Box>
       <Box display="flex" justifyContent="flex-end">
         <Button
           leftIcon={<IoIosAddCircleOutline />}
           onClick={() => setIsOpen(true)}
-          colorScheme="pink"
+          colorScheme="teal"
           width="fit-content"
           marginTop="15px"
           marginRight="20px"
@@ -91,10 +111,26 @@ const Album = () => {
               <Text as='b' fontSize="28px" paddingLeft="50px">
                 {album.name}
               </Text>
+              <Button 
+              ml={2} 
+              backgroundColor="#FFFFFF" 
+              color="#000000"
+              onClick={() => handleOpenUpdateModal(album)}
+              >
+                <IoIosCreate boxSize={12}/>
+              </Button>
             </Box>
           </Box>
         </Box>
       )}
+
+
+        <UpdateAlbumModal
+          isOpen={isUpdateModalOpen}
+          onClose={handleCloseUpdateModal}
+          album={selectedAlbum || { id: 0, name: "", imagePath: "", creatorId: 0 }}
+          onUpdate={handleUpdateCallback}
+        />
 
       {poems.map((poem) => (
         <Link to={`/poem/${poem.id}`} key={poem.id}>
