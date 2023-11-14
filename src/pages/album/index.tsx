@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { Button, Box, Image, Text } from "@chakra-ui/react";
+import { useState, useEffect, useRef } from "react";
+import { Button, Box, Image, Text, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getAlbum, getAlbumPoems } from "@/api";
-import { IoIosAddCircleOutline, IoIosCreate } from "react-icons/io";
+import { getAlbum, getAlbumPoems, deleteAlbum } from "@/api";
+import { IoIosAddCircleOutline, IoIosCreate, IoMdTrash } from "react-icons/io";
 import Poem from "../../components/poem/poem";
 import AddPoem from "@/pages/addpoem";
 import UpdateAlbumModal from "@/pages/updatealbum";
@@ -37,6 +37,9 @@ const Album = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [selectedAlbum, setSelectedAlbum] = useState<IAlbum | null>(null);
+
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
+  const leastDestructiveRef = useRef(null);
 
   const onClose = () => setIsOpen(false);
 
@@ -84,6 +87,26 @@ const Album = () => {
   const handleUpdateCallback = () => {
     fetchData();
   };
+
+  const handleDeleteClick = () => {
+    setIsDeleteConfirmationOpen(true);
+  };
+
+  const cancelDelete = () => {
+      setIsDeleteConfirmationOpen(false);
+  };
+
+  const handleDeleteConfirm = async () => {
+      try {
+          console.log("ini albumId yg mo dihapus: ", idNumber);
+          await deleteAlbum(idNumber);
+
+          setIsDeleteConfirmationOpen(false);
+      } catch (error) {
+          console.error("Error deleting poem: ", error);
+      }
+  };
+
   
 
   return (
@@ -117,7 +140,15 @@ const Album = () => {
               color="#000000"
               onClick={() => handleOpenUpdateModal(album)}
               >
-                <IoIosCreate boxSize={12}/>
+                <IoIosCreate/>
+              </Button>
+
+              <Button
+                onClick={handleDeleteClick}
+                backgroundColor="#FFFFFF" 
+                color="#000000"
+              >
+                <IoMdTrash/>
               </Button>
             </Box>
           </Box>
@@ -140,6 +171,38 @@ const Album = () => {
         </Link>
       ))}
       <AddPoem isOpen={isOpen} onClose={onClose} albumId={idNumber} onPoemAdded={handlePoemAdded}/>
+
+      <AlertDialog
+        isOpen={isDeleteConfirmationOpen}
+        leastDestructiveRef={leastDestructiveRef}
+        onClose={cancelDelete}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Album
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure you want to delete this album?
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button
+                ref={leastDestructiveRef}
+                onClick={handleDeleteConfirm}
+                colorScheme="red"
+                ml={3}
+              >
+                Delete
+              </Button>
+              <Button colorScheme="gray" onClick={cancelDelete}>
+                Cancel
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Box>
   );
 };
