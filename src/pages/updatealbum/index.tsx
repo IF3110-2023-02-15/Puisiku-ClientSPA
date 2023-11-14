@@ -76,7 +76,6 @@ const UpdateAlbumModal: React.FC<UpdateAlbumModalProps> = ({
         }
 
         imagePath = filePath;
-        console.log("filepath:", filePath);
       }
 
       await updateAlbum(album.id, { name: updateAlbumName, imagePath });

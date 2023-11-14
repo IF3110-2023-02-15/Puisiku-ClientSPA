@@ -1,7 +1,7 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { getPoemById, deletePoem } from "@/api";
-import { Button, Image, Box, Text, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react";
+import { Button, Image, Box, Text, useToast, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react";
 import EditPoem from "@/pages/updatepoem";
 
 
@@ -19,6 +19,8 @@ interface Poem {
 
 
 const PoemDetail = () => {
+    const navigate = useNavigate();
+    const toast = useToast();
     const { id } = useParams<{ id: string }>();
     const poemId = Number(id) as number;
     const [poem, setPoem] = useState<Poem | null>(null);
@@ -32,7 +34,6 @@ const PoemDetail = () => {
       const fetchPoem = async () => {
         try {
           const data = await getPoemById(poemId);
-          console.log('ini albumId:', data);
           setPoem(data);
         } catch (error) {
           console.error("Error fetching poem: ", error);
@@ -52,14 +53,26 @@ const PoemDetail = () => {
 
     const handleDeleteConfirm = async () => {
         try {
-            // Call the deletePoem API
-            console.log("ini poemId: ", poemId);
             await deletePoem(poemId);
 
-            // Close the confirmation popup
             setIsDeleteConfirmationOpen(false);
+            navigate(`/album/${poem?.albumId}`);
+            toast({
+              title: "Success!",
+              description: `Successfully delete poem`,
+              status: "success",
+              isClosable: true,
+              duration: 3000,
+            });
         } catch (error) {
             console.error("Error deleting poem: ", error);
+            toast({
+              title: "An error occurred.",
+              description: "Unable to delete poem. Please try again!",
+              status: "error",
+              isClosable: true,
+              duration: 3000,
+            });
         }
     };
 

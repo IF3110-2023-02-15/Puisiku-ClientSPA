@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Button, Box, Image, Text, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react";
+import { Button, Box, Image, Text, useToast, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAlbum, getAlbumPoems, deleteAlbum } from "@/api";
 import { IoIosAddCircleOutline, IoIosCreate, IoMdTrash } from "react-icons/io";
@@ -25,6 +25,7 @@ interface IAlbum {
 
 const Album = () => {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const { id } = useParams<{ id: string }>();
   const idNumber = Number(id);
@@ -74,8 +75,6 @@ const Album = () => {
 
   const handleOpenUpdateModal = (album: IAlbum) => {
     setSelectedAlbum(album);
-    console.log(album.name);
-    console.log(album.imagePath);
     setIsUpdateModalOpen(true);
   };
   
@@ -98,12 +97,26 @@ const Album = () => {
 
   const handleDeleteConfirm = async () => {
       try {
-          console.log("ini albumId yg mo dihapus: ", idNumber);
           await deleteAlbum(idNumber);
 
           setIsDeleteConfirmationOpen(false);
+          navigate("/");
+          toast({
+            title: "Success!",
+            description: `Successfully delete album`,
+            status: "success",
+            isClosable: true,
+            duration: 3000,
+          });
       } catch (error) {
-          console.error("Error deleting poem: ", error);
+          console.error("Error deleting album: ", error);
+          toast({
+            title: "An error occurred.",
+            description: "Unable to delete album. Please try again!",
+            status: "error",
+            isClosable: true,
+            duration: 3000,
+          });
       }
   };
 

@@ -14,6 +14,7 @@ import {
   Input,
   Textarea,
   Select,
+  useToast,
 } from '@chakra-ui/react';
 
 interface AddPoemModalProps {
@@ -26,6 +27,7 @@ interface AddPoemModalProps {
 
 const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose, albumId, onPoemAdded }) => {
   const { id } = useAuth();
+  const toast = useToast();
 
   const initialState = {
     title: '',
@@ -82,9 +84,24 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose, albumId, onPoem
       onPoemAdded();
 
       handleClose();
+
+      toast({
+        title: "Success!",
+        description: `Successfully adding poem`,
+        status: "success",
+        isClosable: true,
+        duration: 3000,
+      });
       
     } catch (error) {
       console.error("Error adding poem", error);
+      toast({
+        title: "An error occurred.",
+        description: "Unable to add poem. Please try again!",
+        status: "error",
+        isClosable: true,
+        duration: 3000,
+      });
     }
   };
 
