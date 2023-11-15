@@ -141,16 +141,15 @@ const Album = () => {
           <Box display="flex" flexDirection="row" alignItems="center" width="60%">
             <Image 
             boxSize="200px"
+            objectFit="cover"
             src={REST_BASE_URL + album.imagePath}
             alt={album.name} />
-            <Box display="flex" alignItems="center">
+            <Box display="flex" alignItems="center" gap={2}>
               <Text as='b' fontSize="28px" paddingLeft="50px">
                 {album.name}
               </Text>
               <Button 
               ml={2} 
-              backgroundColor="#FFFFFF" 
-              color="#000000"
               onClick={() => handleOpenUpdateModal(album)}
               >
                 <IoIosCreate/>
@@ -158,8 +157,6 @@ const Album = () => {
 
               <Button
                 onClick={handleDeleteClick}
-                backgroundColor="#FFFFFF" 
-                color="#000000"
               >
                 <IoMdTrash/>
               </Button>
