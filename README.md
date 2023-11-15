@@ -23,6 +23,8 @@ VITE_APP_API_BASE_URL=http://localhost:3000
 docker compose up -d --build
 ```
 
+The app will be served at localhost:5173. Please note that this app relies on the rest service that is served at localhost:3000.
+
 ## Screenshots
 
 
