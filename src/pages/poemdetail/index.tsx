@@ -59,6 +59,10 @@ const PoemDetail = () => {
         setIsDeleteConfirmationOpen(false);
     };
 
+    const handleBackClick = async () => {
+      navigate(`/album/${poem?.albumId}`);
+    }
+
     const handleDeleteConfirm = async () => {
         try {
             await deletePoem(poemId);
@@ -91,41 +95,54 @@ const PoemDetail = () => {
   
     return (
       <Box display="flex" flexDirection="row" height="calc(100vh - 64px)">
-        <Box backgroundColor="#5BBFAE" display="flex" flexDirection="column" justifyContent="center" alignItems="center" width="25%">
-          <Image 
-            boxSize="250px"
-            objectFit="cover"
-            src={REST_BASE_URL + poem.imagePath}/>
-          <Text as='b' fontSize="24px">{poem.title}</Text>
-          <Text as='i' fontSize="16px">{poem.genre} - {poem.year}</Text>
-          <audio controls style={{ width:"80%", marginTop: '10px' }}>
-            <source 
-              src={REST_BASE_URL + poem.audioPath} 
-              type="audio/mpeg"
-              />
-          </audio>
+        <Box display="flex" flexDirection="column" backgroundColor="#5BBFAE" width="25%">
+          <Box display="flex" justifyContent="flex-start" width="100%" height="10%">
+            <Button 
+            onClick={handleBackClick} 
+            colorScheme="red" 
+            width="fit-content"
+            marginLeft={3}
+            marginTop={3}>
+              Go Back
+            </Button>
+          </Box>
+          <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width="100%" height="90%" paddingBottom="40px">
+            <Image 
+              boxSize="250px"
+              objectFit="cover"
+              src={REST_BASE_URL + poem.imagePath}/>
+            <Text as='b' fontSize="24px">{poem.title}</Text>
+            <Text as='i' fontSize="16px">{poem.genre} - {poem.year}</Text>
+            <audio controls style={{ width:"80%", marginTop: '10px' }}>
+              <source 
+                src={REST_BASE_URL + poem.audioPath} 
+                type="audio/mpeg"
+                />
+            </audio>
+          </Box>
         </Box>
 
         <Box backgroundColor="#69DBC8" width="75%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+          
           <Box display="flex" flexDirection="row" justifyContent="flex-end" width="100%" marginTop={2}>
-            <Button 
-                onClick={() => setIsOpen(true)} 
-                colorScheme="teal" 
-                width="fit-content"
-                marginRight={2}
-              >
-                  <IoIosCreate/>
-            </Button>
+              <Button 
+                  onClick={() => setIsOpen(true)} 
+                  colorScheme="teal" 
+                  width="fit-content"
+                  marginRight={2}
+                >
+                    <IoIosCreate/>
+              </Button>
 
-            <Button
-                onClick={handleDeleteClick}
-                colorScheme="teal"
-                width="fit-content"
-                marginRight={2}
-              >
-                <IoMdTrash/>
-            </Button>
-          </Box>
+              <Button
+                  onClick={handleDeleteClick}
+                  colorScheme="teal"
+                  width="fit-content"
+                  marginRight={2}
+                >
+                  <IoMdTrash/>
+              </Button>
+            </Box>
           <Box 
             height="calc(90vh - 64px)"
             overflow="auto"
