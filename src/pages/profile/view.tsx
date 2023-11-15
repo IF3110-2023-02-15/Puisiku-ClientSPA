@@ -1,4 +1,4 @@
-import { RefObject, ChangeEvent } from "react";
+import {RefObject, ChangeEvent, useEffect} from "react";
 import {
   Box,
   Button,
@@ -65,10 +65,16 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   handleDescriptionChange,
   fileInputRef,
 }) => {
-  console.log("name: ", name);
-  console.log("usr name: ", user?.name);
   const [tempName, setTempName] = useState(name);
   const [tempDescription, setTempDescription] = useState(description);
+
+  useEffect(() => {
+    setTempName(name)
+  }, [name]);
+
+  useEffect(() => {
+    setTempDescription(description)
+  }, [description]);
 
   const handleTempNameChange = (event: any) => {
     setTempName(event.target.value);

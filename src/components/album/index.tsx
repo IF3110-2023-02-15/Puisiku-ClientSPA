@@ -27,6 +27,7 @@ const Album = ({ album }: { album: IAlbum }) => {
         alignItems="center"
         width={250}
         gap={4}
+        height="100%"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         style={{
