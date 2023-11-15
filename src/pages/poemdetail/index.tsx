@@ -9,6 +9,7 @@ import EditPoem from "@/pages/updatepoem";
 const REST_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
 interface Poem {
+    genre: string;
     title: string;
     content: string;
     year: number;
@@ -30,6 +31,8 @@ const PoemDetail = () => {
     const onClose = () => setIsOpen(false);
     const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
     const leastDestructiveRef = useRef(null);
+
+    const formattedContent = poem ? poem.content.replace(/\n/g, '<br/>') : '';
 
     useEffect(() => {
       fetchPoem();
@@ -91,9 +94,10 @@ const PoemDetail = () => {
         <Box backgroundColor="#5BBFAE" display="flex" flexDirection="column" justifyContent="center" alignItems="center" width="25%">
           <Image 
             boxSize="250px"
+            objectFit="cover"
             src={REST_BASE_URL + poem.imagePath}/>
           <Text as='b' fontSize="24px">{poem.title}</Text>
-          <Text as='i' fontSize="16px">{poem.year}</Text>
+          <Text as='i' fontSize="16px">{poem.genre} - {poem.year}</Text>
           <audio controls style={{ width:"80%", marginTop: '10px' }}>
             <source 
               src={REST_BASE_URL + poem.audioPath} 
@@ -134,7 +138,10 @@ const PoemDetail = () => {
 
             <Text as="b" fontSize="22px" 
             maxHeight="calc(90vh - 64px)"
-            lineHeight="2.0">{poem.content}</Text>
+            lineHeight="2.0">
+              <div>
+              <div dangerouslySetInnerHTML={{ __html: formattedContent }} />
+                </div></Text>
           </Box>
         </Box>
 
