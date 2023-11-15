@@ -2,12 +2,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { getPoemById, deletePoem } from "@/api";
 import { Button, Image, Box, Text, useToast, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react";
+import { IoIosCreate, IoMdTrash } from "react-icons/io";
 import EditPoem from "@/pages/updatepoem";
 
 
 const REST_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
 interface Poem {
+    genre: string;
     title: string;
     content: string;
     year: number;
@@ -29,19 +31,25 @@ const PoemDetail = () => {
     const onClose = () => setIsOpen(false);
     const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
     const leastDestructiveRef = useRef(null);
-  
+
+    const formattedContent = poem ? poem.content.replace(/\n/g, '<br/>') : '';
+
     useEffect(() => {
-      const fetchPoem = async () => {
-        try {
-          const data = await getPoemById(poemId);
-          setPoem(data);
-        } catch (error) {
-          console.error("Error fetching poem: ", error);
-        }
-      };
-  
       fetchPoem();
     }, [id]);
+
+    const fetchPoem = async () => {
+      try {
+        const data = await getPoemById(poemId);
+        setPoem(data);
+      } catch (error) {
+        console.error("Error fetching poem: ", error);
+      }
+    };
+
+    const handleUpdateCallback = () => {
+      fetchPoem();
+    };
 
     const handleDeleteClick = () => {
       setIsDeleteConfirmationOpen(true);
@@ -86,9 +94,10 @@ const PoemDetail = () => {
         <Box backgroundColor="#5BBFAE" display="flex" flexDirection="column" justifyContent="center" alignItems="center" width="25%">
           <Image 
             boxSize="250px"
+            objectFit="cover"
             src={REST_BASE_URL + poem.imagePath}/>
           <Text as='b' fontSize="24px">{poem.title}</Text>
-          <Text as='i' fontSize="16px">{poem.year}</Text>
+          <Text as='i' fontSize="16px">{poem.genre} - {poem.year}</Text>
           <audio controls style={{ width:"80%", marginTop: '10px' }}>
             <source 
               src={REST_BASE_URL + poem.audioPath} 
@@ -97,29 +106,26 @@ const PoemDetail = () => {
           </audio>
         </Box>
 
-        <Button 
-              onClick={() => setIsOpen(true)} 
-              colorScheme="pink" 
-              width="fit-content"
-              position="absolute"
-              top="15px"
-              right="100px"
-          >
-              Edit Poem
-        </Button>
+        <Box backgroundColor="#69DBC8" width="75%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+          <Box display="flex" flexDirection="row" justifyContent="flex-end" width="100%" marginTop={2}>
+            <Button 
+                onClick={() => setIsOpen(true)} 
+                colorScheme="teal" 
+                width="fit-content"
+                marginRight={2}
+              >
+                  <IoIosCreate/>
+            </Button>
 
-        <Button
-            onClick={handleDeleteClick}
-            colorScheme="red"
-            width="fit-content"
-            position="absolute"
-            top="15px"
-            right="20px"
-          >
-            Delete Poem
-        </Button>
-
-        <Box backgroundColor="#69DBC8" width="75%" display="flex" justifyContent="center" alignItems="center">
+            <Button
+                onClick={handleDeleteClick}
+                colorScheme="teal"
+                width="fit-content"
+                marginRight={2}
+              >
+                <IoMdTrash/>
+            </Button>
+          </Box>
           <Box 
             height="calc(90vh - 64px)"
             overflow="auto"
@@ -132,11 +138,14 @@ const PoemDetail = () => {
 
             <Text as="b" fontSize="22px" 
             maxHeight="calc(90vh - 64px)"
-            lineHeight="2.0">{poem.content}</Text>
+            lineHeight="2.0">
+              <div>
+              <div dangerouslySetInnerHTML={{ __html: formattedContent }} />
+                </div></Text>
           </Box>
         </Box>
 
-      <EditPoem isOpen={isOpen} onClose={onClose} poemId={poemId}/>
+      <EditPoem isOpen={isOpen} onClose={onClose} poemId={poemId} onPoemUpdated={handleUpdateCallback}/>
       <AlertDialog
                 isOpen={isDeleteConfirmationOpen}
                 leastDestructiveRef={leastDestructiveRef}

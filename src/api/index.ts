@@ -103,8 +103,22 @@ export const getPoemById = async (id: number) => {
 
 export const addPoem = async (data: any) => {
   try {
-    let temp = { ...data, imagePath: data.image, audioPath: data.audio };
+    let temp = { ...data};
+
+    if (typeof(data.image) == 'string'){
+      temp = { ...temp, imagePath: data.image };
+    } else {
+      temp = { ...temp, imagePath: "/img/default_poem.jpg" };
+    }
+
     delete temp.image;
+
+    if (typeof(data.audio) == 'string'){
+      temp = { ...temp, audioPath: data.audio }; 
+    } else {
+      temp = { ...temp, audioPath: "/audio/default_audio.mp3" };
+    }
+
     delete temp.audio;
 
     const response = await apiClient.post("/poem", temp);
@@ -117,7 +131,19 @@ export const addPoem = async (data: any) => {
 
 export const updatePoem = async (id: number, data: any) => {
   try {
-    const response = await apiClient.put(`/poem/${id}`, data);
+    let temp = { ...data};
+    if (typeof(data.image) == 'string'){
+      temp = { ...temp, imagePath: data.image };
+      delete temp.image;
+    }
+    if (typeof(data.audio) == 'string'){
+      temp = { ...temp, audioPath: data.audio };
+      delete temp.audio;
+    }
+
+    temp.year = Number(data.year);
+
+    const response = await apiClient.put(`/poem/${id}`, temp);
     return response.data;
   } catch (error) {
     console.error("Error updating poem", error);
