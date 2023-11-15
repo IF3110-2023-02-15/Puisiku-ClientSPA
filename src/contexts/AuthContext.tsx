@@ -64,6 +64,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setImagePath(decodedToken.imagePath);
 
     localStorage.setItem("token", token);
+    localStorage.setItem("imagePath", decodedToken.imagePath);
   };
 
   const logout = () => {
