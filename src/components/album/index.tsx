@@ -14,7 +14,6 @@ interface IAlbum {
 const Album = ({ album }: { album: IAlbum }) => {
   const imagePath = REST_BASE_URL + album.imagePath;
   const [isHovered, setIsHovered] = useState(false);
-  console.log(album);
   return (
     <Link to={`/album/${album.id}`}>
       <Flex

@@ -60,7 +60,6 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId, onPoe
   }, [poemId, isOpen]);
 
   useEffect(() => {
-    console.log("ini data update poem di formData", formData);
   }, [formData]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -102,7 +101,6 @@ const EditPoem: React.FC<EditPoemModalProps> = ({ isOpen, onClose, poemId, onPoe
         newFormData = { ...newFormData, audio: filePath};
       }
 
-      console.log("ini newformdata: ",newFormData)
       await updatePoem(poemId, newFormData);
 
       onPoemUpdated();
