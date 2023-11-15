@@ -134,7 +134,7 @@ const Home = () => {
 
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
-          <ModalContent>
+          <ModalContent mx={6}>
             <ModalHeader>Add a new poem</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>

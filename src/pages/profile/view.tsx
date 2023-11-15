@@ -85,7 +85,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   };
 
   return (
-    <VStack spacing={4} padding={4} my={12}>
+    <VStack spacing={4} padding={4} my={12} mx={6} >
       <Box boxSize="150px" position="relative">
         <Box as="span" display="inline-block">
           <Image
@@ -117,9 +117,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({
         </Box>
       </Box>
 
-      <VStack spacing={4}>
+      <VStack spacing={4} width="100%">
         <Flex justifyContent="space-between" alignItems="center">
-          <Text as="b" fontSize="5xl">
+          <Text as="b" fontSize="5xl" >
             {name}
           </Text>
           <IconButton
@@ -132,7 +132,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 
         <Modal isOpen={isNameOpen} onClose={onNameClose}>
           <ModalOverlay />
-          <ModalContent>
+          <ModalContent mx={6}>
             <ModalHeader>Edit Name</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
@@ -159,7 +159,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({
         </Text>
 
         <Box
-          width="400px"
+          width="100%"
+          maxWidth="400px"
           minHeight="250px"
           p={4}
           borderWidth={1}
@@ -181,7 +182,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 
         <Modal isOpen={isDescOpen} onClose={onDescClose}>
           <ModalOverlay />
-          <ModalContent>
+          <ModalContent mx={6}>
             <ModalHeader>Edit Description</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
