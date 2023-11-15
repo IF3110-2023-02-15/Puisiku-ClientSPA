@@ -136,15 +136,15 @@ const Album = () => {
         </Button>
       </Box>
       {album && (
-        <Box display="flex" justifyContent="center" marginBottom="20px">
-          <Box display="flex" flexDirection="row" alignItems="center" width="60%">
+        <Box display="flex" justifyContent="center" alignItems="center" marginBottom="20px" >
+          <Box display="flex" flexDirection={{ base: "column", md: "row" }} gap={6} alignItems="center" width="60%">
             <Image 
             boxSize="200px"
             objectFit="cover"
             src={REST_BASE_URL + album.imagePath}
             alt={album.name} />
-            <Box display="flex" alignItems="center" gap={2}>
-              <Text as='b' fontSize="28px" paddingLeft="50px">
+            <Box display="flex" alignItems="center" gap={2} >
+              <Text as='b' fontSize="28px">
                 {album.name}
               </Text>
               <Button 
@@ -179,7 +179,7 @@ const Album = () => {
           </Box>
         </Link>
       ))}
-      <AddPoem isOpen={isOpen} onClose={onClose} albumId={idNumber} onPoemAdded={handlePoemAdded}/>
+      <AddPoem isOpen={isOpen} onClose={onClose} albumId={idNumber} onPoemAdded={handlePoemAdded} />
 
       <AlertDialog
         isOpen={isDeleteConfirmationOpen}
