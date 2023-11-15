@@ -125,7 +125,7 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose, albumId, onPoem
   return (
       <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay/>
-        <ModalContent>
+        <ModalContent mx={6}>
           <form onSubmit={handleSubmit}>
             <ModalHeader>Add Poem</ModalHeader>
             <ModalCloseButton onClick={handleClose}/>
