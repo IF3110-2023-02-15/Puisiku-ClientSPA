@@ -151,11 +151,11 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose, albumId, onPoem
               </div>
               <div>
                 <label>Image</label>
-                <Input type="file" name="image" accept=".jpg, .jpeg, .png" onChange={handleFileChange} required/>
+                <Input type="file" name="image" accept=".jpg, .jpeg, .png" onChange={handleFileChange}/>
               </div>
               <div>
                 <label>Audio</label>
-                <Input type="file" name="audio" accept=".mp3" onChange={handleFileChange} required/>
+                <Input type="file" name="audio" accept=".mp3" onChange={handleFileChange}/>
               </div>
               <div>
                 <label>Year</label>
