@@ -43,10 +43,14 @@ const Login: React.FC = () => {
         duration: 3000,
       });
       navigate("/home");
-    } catch (error) {
+    } catch (error: any) {
+      let description = "Register failed!";
+      if (error?.response?.status == 401) {
+        description = error.response.data.error
+      }
       toast({
         title: "An error occurred.",
-        description: "Login failed!",
+        description: description,
         status: "error",
         isClosable: true,
         duration: 3000,
