@@ -65,8 +65,7 @@ const Album = () => {
     }
   };
 
-  const handlePoemClick = (id: number) => {
-    console.log(`Poem with id ${id} clicked.`);
+  const handlePoemClick = () => {
   };
 
   const handlePoemAdded = () => {
