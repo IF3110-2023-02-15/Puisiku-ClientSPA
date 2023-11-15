@@ -5,6 +5,7 @@ import { z } from "zod";
 import RegisterView from "./view";
 import { registerUser } from "@/api";
 import { useNavigate } from "react-router-dom";
+import {useToast} from "@chakra-ui/react";
 
 const schema = z
   .object({
@@ -24,6 +25,7 @@ type IFormInput = z.infer<typeof schema>;
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const {
     handleSubmit,
@@ -35,10 +37,25 @@ const Register: React.FC = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = async (values) => {
     try {
-      registerUser(values);
+      await registerUser(values);
+
+      toast({
+        title: "Success",
+        description: "Successfully registered creator. Login to continue!",
+        status: "success",
+        isClosable: true,
+        duration: 3000,
+      });
+
       navigate("/login");
     } catch (error) {
-      console.error("Error registering user", error);
+      toast({
+        title: "An error occurred.",
+        description: "Register failed!",
+        status: "error",
+        isClosable: true,
+        duration: 3000,
+      });
     }
   };
 

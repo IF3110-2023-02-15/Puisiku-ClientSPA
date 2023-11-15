@@ -6,6 +6,7 @@ import LoginView from "./view";
 import { loginUser } from "@/api";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 
 const schema = z.object({
   email: z.string().email("Invalid email address"),
@@ -16,6 +17,7 @@ type IFormInput = z.infer<typeof schema>;
 
 const Login: React.FC = () => {
   const { login } = useAuth();
+  const toast = useToast();
   const navigate = useNavigate();
 
   const {
@@ -33,9 +35,22 @@ const Login: React.FC = () => {
 
       login(token);
 
+      toast({
+        title: "Success",
+        description: "Successfully logged in!",
+        status: "success",
+        isClosable: true,
+        duration: 3000,
+      });
       navigate("/home");
     } catch (error) {
-      console.error("Error logging in user", error);
+      toast({
+        title: "An error occurred.",
+        description: "Login failed!",
+        status: "error",
+        isClosable: true,
+        duration: 3000,
+      });
     }
   };
 

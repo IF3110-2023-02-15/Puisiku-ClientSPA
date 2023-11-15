@@ -56,6 +56,14 @@ const Profile = () => {
 
   const handleLogout = () => {
     logout();
+
+    toast({
+      title: "Logged Out!",
+      status: "info",
+      isClosable: true,
+      duration: 3000,
+    });
+
     navigate("/");
   };
 
