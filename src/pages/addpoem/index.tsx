@@ -132,11 +132,11 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose, albumId, onPoem
             <ModalBody>
             <div>
               <label>Title</label>
-              <Input type="text" name="title" value={formData.title} onChange={handleInputChange} />
+              <Input type="text" name="title" value={formData.title} onChange={handleInputChange} required/>
             </div>
               <div>
                 <label>Content</label>
-                <Textarea name="content" value={formData.content} onChange={handleInputChange} />
+                <Textarea name="content" value={formData.content} onChange={handleInputChange} required/>
               </div>
               <div>
                 <label>Genre</label>
@@ -151,15 +151,15 @@ const AddPoem: React.FC<AddPoemModalProps> = ({ isOpen, onClose, albumId, onPoem
               </div>
               <div>
                 <label>Image</label>
-                <Input type="file" name="image" accept=".jpg, .jpeg, .png" onChange={handleFileChange} />
+                <Input type="file" name="image" accept=".jpg, .jpeg, .png" onChange={handleFileChange} required/>
               </div>
               <div>
                 <label>Audio</label>
-                <Input type="file" name="audio" accept=".mp3" onChange={handleFileChange} />
+                <Input type="file" name="audio" accept=".mp3" onChange={handleFileChange} required/>
               </div>
               <div>
                 <label>Year</label>
-                <Input type="number" name="year" value={formData.year} onChange={handleInputChange} />
+                <Input type="number" name="year" value={formData.year} onChange={handleInputChange} required/>
               </div>
             </ModalBody>
             <ModalFooter>
