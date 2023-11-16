@@ -86,6 +86,10 @@ const Album = () => {
     fetchData();
   };
 
+  const handleBackClick = () => {
+    navigate("/home");
+  }
+
   const handleDeleteClick = () => {
     setIsDeleteConfirmationOpen(true);
   };
@@ -123,7 +127,15 @@ const Album = () => {
 
   return (
     <Box>
-      <Box display="flex" justifyContent="flex-end">
+      <Box display="flex" justifyContent="space-between">
+        <Button 
+          onClick={handleBackClick} 
+          colorScheme="red" 
+          width="fit-content"
+          marginLeft="20px"
+          marginTop="15px">
+            Go Back
+        </Button>
         <Button
           leftIcon={<IoIosAddCircleOutline />}
           onClick={() => setIsOpen(true)}
