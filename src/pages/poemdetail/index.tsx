@@ -94,8 +94,8 @@ const PoemDetail = () => {
     }
   
     return (
-      <Box display="flex" flexDirection={{ base: "column", md: "row", lg: "row" }}  height="calc(100vh - 64px)">
-        <Box display="flex" flexDirection="column" backgroundColor="#E5E5E5" width={{ base: "100%", md: "40%", lg: "25%"}} >
+      <Box display="flex" flexDirection={{ base: "column", md: "row", lg: "row" }}  height="calc(100vh - 64px)" boxShadow="dark-lg">
+        <Box display="flex" flexDirection="column" backgroundColor="#FFFFFF" width={{ base: "100%", md: "40%", lg: "25%"}} boxShadow="lg">
           <Box display="flex" justifyContent="flex-start" width="100%" height="10%">
             <Button 
             onClick={handleBackClick} 
@@ -117,9 +117,6 @@ const PoemDetail = () => {
             style={{
               width: "80%",
               marginTop: "10px",
-              border: "10px solid #69DBC8",
-              borderRadius:"50px",
-              boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
             }}>
               <source 
                 src={REST_BASE_URL + poem.audioPath} 
@@ -129,17 +126,7 @@ const PoemDetail = () => {
           </Box>
         </Box>
 
-        <style>
-          {`
-            audio:hover {
-              background-color: #69DBC8;
-              color: #69DBC8;
-              cursor: pointer;
-            }
-          `}
-        </style>
-
-        <Box backgroundColor="#FFFFFF" width={{ base: "100%", md: "60%", lg: "75%"}} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+        <Box backgroundColor="#FFFFFF" width={{ base: "100%", md: "60%", lg: "75%"}} display="flex" flexDirection="column" justifyContent="center" alignItems="center" boxShadow="lg">
           
           <Box display="flex" flexDirection="row" justifyContent="flex-end" width="100%" marginTop={2}>
               <Button 
@@ -163,7 +150,7 @@ const PoemDetail = () => {
           <Box 
             height="calc(90vh - 64px)"
             overflow="auto"
-            backgroundColor="#E5E5E5"
+            backgroundColor="#FFFFFF"
             borderRadius="10px"
             border="3px solid #000000"
             width={{base:"80%", md:"70%", lg:"50%"}}

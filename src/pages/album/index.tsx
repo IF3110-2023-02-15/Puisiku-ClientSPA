@@ -186,7 +186,7 @@ const Album = () => {
 
       {poems.map((poem) => (
         <Link to={`/poem/${poem.id}`} key={poem.id}>
-          <Box display="flex" justifyContent="center">
+          <Box display="flex" justifyContent="center" marginBottom="3px">
             <Poem poem={poem} handlePoemClick={handlePoemClick}/>
           </Box>
         </Link>
