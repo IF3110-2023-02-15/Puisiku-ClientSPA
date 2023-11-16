@@ -94,8 +94,8 @@ const PoemDetail = () => {
     }
   
     return (
-      <Box display="flex" flexDirection="row" height="calc(100vh - 64px)">
-        <Box display="flex" flexDirection="column" backgroundColor="#5BBFAE" width="25%">
+      <Box display="flex" flexDirection={{ base: "column", md: "row", lg: "row" }}  height="calc(100vh - 64px)">
+        <Box display="flex" flexDirection="column" backgroundColor="#E5E5E5" width={{ base: "100%", md: "40%", lg: "25%"}} >
           <Box display="flex" justifyContent="flex-start" width="100%" height="10%">
             <Button 
             onClick={handleBackClick} 
@@ -106,14 +106,21 @@ const PoemDetail = () => {
               Go Back
             </Button>
           </Box>
-          <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width="100%" height="90%" paddingBottom="40px">
+          <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width="100%" height="90%" paddingBottom="40px" marginTop={{base: "20px"}}>
             <Image 
-              boxSize="250px"
+              boxSize={{ base: "200px", md: "220px", lg:"230px"}}
               objectFit="cover"
               src={REST_BASE_URL + poem.imagePath}/>
             <Text as='b' fontSize="24px">{poem.title}</Text>
             <Text as='i' fontSize="16px">{poem.genre} - {poem.year}</Text>
-            <audio controls style={{ width:"80%", marginTop: '10px' }}>
+            <audio controls 
+            style={{
+              width: "80%",
+              marginTop: "10px",
+              border: "10px solid #69DBC8",
+              borderRadius:"50px",
+              boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
+            }}>
               <source 
                 src={REST_BASE_URL + poem.audioPath} 
                 type="audio/mpeg"
@@ -122,7 +129,17 @@ const PoemDetail = () => {
           </Box>
         </Box>
 
-        <Box backgroundColor="#69DBC8" width="75%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+        <style>
+          {`
+            audio:hover {
+              background-color: #69DBC8;
+              color: #69DBC8;
+              cursor: pointer;
+            }
+          `}
+        </style>
+
+        <Box backgroundColor="#FFFFFF" width={{ base: "100%", md: "60%", lg: "75%"}} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
           
           <Box display="flex" flexDirection="row" justifyContent="flex-end" width="100%" marginTop={2}>
               <Button 
@@ -146,10 +163,10 @@ const PoemDetail = () => {
           <Box 
             height="calc(90vh - 64px)"
             overflow="auto"
-            backgroundColor="#88E2D4"
-            borderRadius="20px"
+            backgroundColor="#E5E5E5"
+            borderRadius="10px"
             border="3px solid #000000"
-            width="50%"
+            width={{base:"80%", md:"70%", lg:"50%"}}
             padding="20px"
             margin="20px auto">
 
