@@ -30,4 +30,24 @@ The app will be served at localhost:5173. Please note that this app relies on th
 
 ## Task Division
 
+| Task                      | Contributor  |
+|---------------------------|--------------|
+| Add Poem                  | 13521103     |
+| Album                     | 13521046     |
+| Docker and Infrastructure | 13521046     |
+| Errors                    | 10023334     |
+| Home                      | 13521046     |
+| Landing                   | 10023334     |
+| Login                     | 13521046     |
+| Poem Detail               | 13521103     |
+| Profile                   | 13521046     |
+| Register                  | 13521046     |
+| Update Album              | 13521103     |
+| Update Poem               | 13521103     |
 
+## Authors
+| NIM      | Nama                    |
+|----------|-------------------------|
+| 10023334 | Tubagus Rahardi         |
+| 13521046 | Jeffrey Chow            |
+| 13521103 | Aulia Mey Diva Annandya |
