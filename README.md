@@ -25,7 +25,31 @@ docker compose up -d --build
 
 The app will be served at localhost:5173. Please note that this app relies on the rest service that is served at localhost:3000.
 
-## Screenshots
+## User Interface Screenshots
+### Landing Page
+![image](assets/Landing.png)
+
+### Login Page
+![image](assets/Login.png)
+
+### Register Page
+![image](assets/Register.png)
+
+### Albums Page
+![image](assets/Albums.png)
+
+### Detail Album Page
+![image](assets/AlbumDetail.png)
+
+### Detail Poem Page
+![image](assets/PoemDetail.png)
+
+### Profile Page
+![image](assets/Profile.png)
+
+### Error Page
+![image](assets/NotFoundPage.png)
+![image](assets/Unauthorized.png)
 
 
 ## Task Division
